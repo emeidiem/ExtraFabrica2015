@@ -21,14 +21,14 @@ public class Surface {
 	void run(){
 		renderParticles();
 		renderSprings();
-		linkheadtoMouse();
+		//linkheadtoMouse();
 	}
 
 	private void createParticles() {
 		int id = 0;
 		for (int i = 0; i < numPart; i++) {
 			for (int j = 0; j < numPart; j++) {
-				Vec3D tempos = new Vec3D(i * spacing + 100, j * spacing + 100,
+				Vec3D tempos = new Vec3D(i * spacing - numPart * spacing/2+spacing/2, j * spacing - numPart * spacing/2+spacing/2,
 						0);
 				Particle p = new Particle(p5, tempos, id);
 				// Particle(ExtraFabrica00 _p5, Vec3D pos, int _id)
