@@ -1,9 +1,11 @@
 package extrafabrica2015;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import toxi.geom.Vec3D;
 import toxi.physics.VerletSpring;
+import wblut.hemesh.HE_Vertex;
 
 public class Surface {
 
@@ -17,9 +19,21 @@ public class Surface {
 		createSprings();
 	}
 	
+	private void connectSurfacetoMesh() {
+		for (int i=0; i<p5.mesh.numberOfVertices();i++){
+			HE_Vertex v = p5.mesh.getVerticesAsList().get(i);
+			Particle p = particles.get(i);
+			v.x=p.x;
+			v.y=p.y;
+			v.z=p.z;
+		}
+		
+	}
+
 	void run(){
 		renderParticles();
 		renderSprings();
+		connectSurfacetoMesh();
 		//linkheadtoMouse();
 	}
 

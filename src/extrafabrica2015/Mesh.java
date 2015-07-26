@@ -21,7 +21,7 @@ public class Mesh extends HE_Mesh {
 	}
 
 	private void rendermesh() {
-		p5.stroke(150);
+		p5.noStroke();
 		p5.fill(200);
 		p5.render.drawFaces(this);
 	}
