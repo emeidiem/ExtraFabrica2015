@@ -12,6 +12,7 @@ import toxi.physics.VerletPhysics;
 import toxi.physics.VerletSpring;
 import toxi.physics.behaviors.GravityBehavior;
 import wblut.hemesh.HEC_FromFacelist;
+import wblut.hemesh.HET_Export;
 import wblut.hemesh.HE_Selection;
 import wblut.processing.WB_Render;
 
@@ -19,7 +20,7 @@ public class ExtraFabrica2015 extends PApplet {
 
 	int numPart = 10;
 	int spacing = 40;
-	float totalLength = (numPart-1)*spacing;
+	float totalLength = (numPart - 1) * spacing;
 	PeasyCam cam;
 	VerletPhysics physics;
 	Gui gui;
@@ -29,7 +30,7 @@ public class ExtraFabrica2015 extends PApplet {
 	Mesh mesh;
 	WB_Render render;
 
-//	Surface surface;
+	// Surface surface;
 
 	public void settings() {
 		size(800, 600, P3D);
@@ -43,7 +44,7 @@ public class ExtraFabrica2015 extends PApplet {
 		initmesh();
 		render = new WB_Render(this);
 
-//		surface = new Surface(this);
+		// surface = new Surface(this);
 		gui = new Gui(this);
 	}
 
@@ -52,7 +53,7 @@ public class ExtraFabrica2015 extends PApplet {
 		if (this.gravityOn)
 			physics.update();
 		mesh.run();
-//		surface.run();
+		// surface.run();
 		gui.run();
 		if (gui.cp5.window(this).isMouseOver()) {
 			cam.setActive(false);
@@ -64,7 +65,7 @@ public class ExtraFabrica2015 extends PApplet {
 	void initmesh() {
 
 		// Array of all vertices
-		float[][] vertices = new float[numPart*numPart][3];
+		float[][] vertices = new float[numPart * numPart][3];
 		int index = 0;
 		for (int j = 0; j < numPart; j++) {
 			for (int i = 0; i < numPart; i++) {
@@ -94,7 +95,7 @@ public class ExtraFabrica2015 extends PApplet {
 		mesh = new Mesh(this, facelistCreator);
 		mesh.validate(true, true);
 		mesh.collapseDegenerateEdges();
-		//mesh.selection = new HE_Selection(mesh);
+		// mesh.selection = new HE_Selection(mesh);
 
 	}
 
@@ -130,6 +131,9 @@ public class ExtraFabrica2015 extends PApplet {
 	}
 
 	public void keyPressed() {
+		if (key == 's') {
+			HET_Export.saveToOBJ(this.mesh, dataPath("surface_"+this.frameCount+".obj"));
+		}
 		// if (key == 'l') {
 		// if (!p1.isLocked())p1.lock(); // !p1.isLocked() = p1.isLocked==false
 		// else p1.unlock(); //if (p1.isLocked())
