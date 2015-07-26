@@ -8,9 +8,8 @@ import toxi.physics.VerletSpring;
 public class Surface {
 
 	ExtraFabrica2015 p5;
-	int numPart = 10;
-	int spacing = 40;
 	ArrayList<Particle> particles = new ArrayList<Particle>();
+	Particle head;
 
 	Surface(ExtraFabrica2015 _p5) {
 		p5 = _p5;
@@ -26,9 +25,9 @@ public class Surface {
 
 	private void createParticles() {
 		int id = 0;
-		for (int i = 0; i < numPart; i++) {
-			for (int j = 0; j < numPart; j++) {
-				Vec3D tempos = new Vec3D(i * spacing - numPart * spacing/2+spacing/2, j * spacing - numPart * spacing/2+spacing/2,
+		for (int i = 0; i < p5.numPart; i++) {
+			for (int j = 0; j < p5.numPart; j++) {
+				Vec3D tempos = new Vec3D(i * p5.spacing/2 - p5.numPart * p5.spacing/2/2+p5.spacing/2/2, j * p5.spacing/2 - p5.numPart * p5.spacing/2/2+p5.spacing/2/2,
 						0);
 				Particle p = new Particle(p5, tempos, id);
 				// Particle(ExtraFabrica00 _p5, Vec3D pos, int _id)
@@ -36,33 +35,35 @@ public class Surface {
 				particles.add(p);
 				if (id == 0)
 					p.lock();
-				if (id == numPart - 1)
+				if (id == p5.numPart - 1)
 					p.lock();
-				if (id == (numPart - 1) * numPart)
+				if (id == (p5.numPart - 1) * p5.numPart)
 					p.lock();
 				// p.lock();
 
 				id++;
 			}
 		}
+		head = particles.get(particles.size() - 1);
+		head.lock();
 	}
 	
 	private void createSprings() {
 		for (int i = 0; i < particles.size(); i++) {
-			if ((i > 0) && (i % numPart != 0)) {
+			if ((i > 0) && (i % p5.numPart != 0)) {
 				Particle p1 = particles.get(i);
 				Particle p2 = particles.get(i - 1);
-				VerletSpring s = new VerletSpring(p1, p2, spacing, 0.5f);
+				VerletSpring s = new VerletSpring(p1, p2, p5.spacing/2, 0.5f);
 				p5.physics.addSpring(s);
 			}
 		}
 
-		for (int i = 0; i < numPart - 1; i++) {
-			for (int j = 0; j < numPart; j++) {
-				// if (j>numPart) {
-				Particle p1 = particles.get(j + i * numPart);
-				Particle p2 = particles.get(j + (i + 1) * numPart);
-				VerletSpring s = new VerletSpring(p1, p2, spacing, 0.5f);
+		for (int i = 0; i < p5.numPart - 1; i++) {
+			for (int j = 0; j < p5.numPart; j++) {
+				// if (j>p5.numPart) {
+				Particle p1 = particles.get(j + i * p5.numPart);
+				Particle p2 = particles.get(j + (i + 1) * p5.numPart);
+				VerletSpring s = new VerletSpring(p1, p2, p5.spacing/2, 0.5f);
 				p5.physics.addSpring(s);
 				// }
 			}
@@ -86,8 +87,7 @@ public class Surface {
 	}
 
 	void linkheadtoMouse() {
-		Particle head = particles.get(particles.size() - 1);
-		head.lock();
+
 		head.set(p5.mouseX, p5.mouseY, 0);
 	}
 
